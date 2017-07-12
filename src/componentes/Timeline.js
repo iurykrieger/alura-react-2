@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Foto from './Foto';
 import Header from './Header';
 import { Redirect } from 'react-router-dom';
+import ErrorHandler from '../helpers/ErrorHandler';
+import Pubsub from 'pubsub-js';
 
 export default class Timeline extends Component {
 	constructor(props) {
@@ -17,7 +19,13 @@ export default class Timeline extends Component {
 		} else {
 			url = `${url}/public/fotos/${this.login}`;
 		}
-		fetch(url).then(fotos => fotos.json()).then(fotos => this.setState({ fotos: fotos }));
+		fetch(url)
+			.then(response => ErrorHandler.handle(response).json())
+			.then(photos => this.setState({ fotos: photos }));
+	}
+
+	componentWillMount() {
+		Pubsub.subscribe('new-photos', (topic, photos) => this.setState({ fotos: photos }));
 	}
 
 	componentDidMount() {

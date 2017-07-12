@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ErrorHandler from '../helpers/ErrorHandler';
+import Pubsub from 'pubsub-js';
 
 export default class Header extends Component {
 	search(event) {
 		event.preventDefault();
 		fetch(`http://10.1.1.29:8080/api/public/fotos/${this.searchInput.value}`)
 			.then(response => ErrorHandler.handle(response).json())
-			.then(response => {});
+			.then(photos => Pubsub.publish('new-photos', photos));
 	}
 
 	render() {
