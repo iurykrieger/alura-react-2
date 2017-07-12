@@ -26,7 +26,7 @@ export default class Login extends Component {
 			headers: new Headers({ 'Content-type': 'application/json' })
 		};
 
-		fetch('http://localhost:8080/api/public/login', requestInfo)
+		fetch('http://10.1.1.29:8080/api/public/login', requestInfo)
 			.then(response => this._handleError(response))
 			.then(token => {
 				localStorage.setItem('x-access-token', token);

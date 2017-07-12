@@ -11,7 +11,7 @@ export default class Timeline extends Component {
 	}
 
 	load() {
-		let url = 'http://localhost:8080/api';
+		let url = 'http://10.1.1.29:8080/api';
 		if (!this.login) {
 			url = `${url}/fotos?X-AUTH-TOKEN=${localStorage.getItem('x-access-token')}`;
 		} else {
