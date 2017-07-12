@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Header extends Component {
 	render() {
 		return (
 			<header className="header container">
-				<h1 className="header-logo">Instalura</h1>
+				<Link to="/timeline">
+					<h1 className="header-logo">Instalura</h1>
+				</Link>
 
 				<form className="header-busca">
 					<input

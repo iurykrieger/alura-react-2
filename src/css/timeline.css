@@ -32,6 +32,10 @@ body {
 	transition: .4s;
 }
 
+.header a {
+	text-decoration: none;
+}
+
 .header-logo:hover {
 	filter: hue-rotate(0);
 }
