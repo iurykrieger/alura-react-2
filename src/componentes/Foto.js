@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Pubsub from 'pubsub-js';
+import ErrorHandler from '../helpers/ErrorHandler';
 
 class FotoAtualizacoes extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { liked: this.props.foto.likeada };
-	}
-
-	_handleError(response) {
-		if (!response.ok) {
-			throw new Error('Não foi possível executar a ação');
-		}
-		return response.json();
 	}
 
 	like(event) {
@@ -23,7 +17,7 @@ class FotoAtualizacoes extends Component {
 				'X-AUTH-TOKEN': localStorage.getItem('x-access-token')
 			}
 		})
-			.then(response => this._handleError(response))
+			.then(response => ErrorHandler.handle(response).json())
 			.then(liker => {
 				this.setState({ liked: !this.state.liked });
 				Pubsub.publish('refresh-liker', { id: this.props.foto.id, liker });
@@ -43,7 +37,7 @@ class FotoAtualizacoes extends Component {
 				texto: this.comment.value
 			})
 		})
-			.then(response => this._handleError(response))
+			.then(response => ErrorHandler.handle(response).json())
 			.then(comment => {
 				Pubsub.publish('new-comment', { id: this.props.foto.id, comment });
 				this.comment.value = '';

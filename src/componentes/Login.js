@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import ErrorHandler from '../helpers/ErrorHandler';
 
 export default class Login extends Component {
 	constructor() {
 		super();
 		this.state = { errorMessage: '', token: '' };
-	}
-
-	_handleError(response) {
-		if (!response.ok) {
-			console.log(response.statusText);
-			throw new Error('Não foi possível fazer o login.');
-		}
-		return response.text();
 	}
 
 	onSubmit(event) {
@@ -27,12 +20,12 @@ export default class Login extends Component {
 		};
 
 		fetch('http://10.1.1.29:8080/api/public/login', requestInfo)
-			.then(response => this._handleError(response))
+			.then(response => ErrorHandler.handle(response).text())
 			.then(token => {
 				localStorage.setItem('x-access-token', token);
 				this.setState({ errorMessage: '' });
 			})
-			.catch(error => this.setState({ errorMessage: error.message }));
+			.catch(error => this.setState({ errorMessage: 'Não foi possível fazer o login.' }));
 	}
 
 	render() {
