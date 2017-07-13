@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class FotoAtualizacoes extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { liked: this.props.foto.likeada };
-	}
-
 	like(event) {
 		event.preventDefault();
-		this.props.like(this.props.foto.id).then(() => this.setState({ liked: !this.state.liked }));
+		this.props.like(this.props.foto.id);
 	}
 
 	comment(event) {
@@ -25,7 +20,9 @@ class FotoAtualizacoes extends Component {
 				<a
 					onClick={this.like.bind(this)}
 					className={
-						this.state.liked ? 'fotoAtualizacoes-like-ativo' : 'fotoAtualizacoes-like'
+						this.props.foto.likeada
+							? 'fotoAtualizacoes-like-ativo'
+							: 'fotoAtualizacoes-like'
 					}
 				>
 					Likar
@@ -55,7 +52,7 @@ class FotoInfo extends Component {
 				<div className="foto-info-likes">
 					{this.props.foto.likers.map(liker =>
 						<Link key={liker.login} to={`/timeline/${liker.login}`}>
-							{liker.login}
+							{' '}{liker.login},
 						</Link>
 					)}{' '}
 					curtiram

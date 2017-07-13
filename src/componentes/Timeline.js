@@ -62,6 +62,7 @@ export default class Timeline extends Component {
 			} else {
 				photo.likers.push(likerInfo.liker);
 			}
+			photo.likeada = !photo.likeada;
 			this.setState({ fotos: this.state.fotos });
 		});
 		Pubsub.subscribe('new-comment', (topic, commentInfo) => {
