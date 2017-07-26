@@ -5,13 +5,13 @@ import Photo from './Photo';
 import Header from './Header';
 import TimelineStore from '../stores/TimelineStore';
 
-const store = new TimelineStore([]);
+const store = new TimelineStore();
 
 export default class Timeline extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { photos: [] };
 		this.login = this.props.match.params.login;
+		this.state = { photos: [] };
 	}
 
 	like(photoId) {
@@ -31,9 +31,9 @@ export default class Timeline extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.match.params.login != nextProps.match.params.login) {
+		if (this.props.match.params.login !== nextProps.match.params.login) {
 			this.login = nextProps.match.params.login;
-			store.loadPhotos(this.login);
+			this.props.store.loadPhotos(this.props.login);
 		}
 	}
 

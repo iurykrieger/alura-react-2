@@ -40,7 +40,7 @@ export default class TimelineStore {
 				const photo = this._findPhoto(photoId);
 				if (photo.likers.find(actualLiker => actualLiker.login === liker.login)) {
 					photo.likers = photo.likers.filter(
-						actualLiker => actualLiker.login != liker.login
+						actualLiker => actualLiker.login !== liker.login
 					);
 				} else {
 					photo.likers.push(liker);
@@ -71,7 +71,7 @@ export default class TimelineStore {
 	}
 
 	_findPhoto(photoId) {
-		return this.photos.find(photo => photo.id == photoId);
+		return this.photos.find(photo => photo.id === photoId);
 	}
 
 	subscribe(callback) {
