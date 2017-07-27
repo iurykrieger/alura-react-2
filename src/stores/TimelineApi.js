@@ -1,5 +1,4 @@
 import ErrorHandler from '../helpers/ErrorHandler';
-import Pubsub from 'pubsub-js';
 
 export default class TimelineApi {
 	static load(login) {
@@ -52,9 +51,5 @@ export default class TimelineApi {
 				.then(response => ErrorHandler.handle(response).json())
 				.then(comment => dispatch({ type: 'COMMENT', photoId, comment }))
 				.catch(error => console.log(error));
-	}
-
-	subscribe(callback) {
-		Pubsub.subscribe('timeline', (topic, photos) => callback(photos));
 	}
 }

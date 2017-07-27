@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 import Photo from './Photo';
 import Header from './Header';
 import TimelineApi from '../stores/TimelineApi';
@@ -17,8 +16,12 @@ export default class Timeline extends Component {
 		this.state = { photos: [] };
 	}
 
-	load() {
-		return store.dispatch(TimelineApi.load(this.login));
+	load(login) {
+		return store.dispatch(TimelineApi.load(login));
+	}
+
+	search(searchValue) {
+		return store.dispatch(TimelineApi.search(searchValue));
 	}
 
 	like(photoId) {
@@ -34,13 +37,13 @@ export default class Timeline extends Component {
 	}
 
 	componentDidMount() {
-		this.load();
+		this.load(this.login);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.match.params.login !== nextProps.match.params.login) {
 			this.login = nextProps.match.params.login;
-			this.load();
+			this.load(this.login);
 		}
 	}
 
@@ -51,22 +54,16 @@ export default class Timeline extends Component {
 			return (
 				<div id="root">
 					<div className="main">
-						<Header store={store} />
+						<Header search={this.search.bind(this)} />
 						<div className="fotos container">
-							<ReactCSSTransitionGroup
-								transitionName="timeline"
-								transitionEnterTimeout={500}
-								transitionLeaveTimeout={500}
-							>
-								{this.state.photos.map(photo =>
-									<Photo
-										photo={photo}
-										key={photo.id}
-										like={this.like.bind(this)}
-										comment={this.comment.bind(this)}
-									/>
-								)}
-							</ReactCSSTransitionGroup>
+							{this.state.photos.map(photo =>
+								<Photo
+									photo={photo}
+									key={photo.id}
+									like={this.like.bind(this)}
+									comment={this.comment.bind(this)}
+								/>
+							)}
 						</div>
 					</div>
 				</div>

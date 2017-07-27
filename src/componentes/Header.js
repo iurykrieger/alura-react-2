@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default class Header extends Component {
 	search(event) {
 		event.preventDefault();
-		this.props.store.search(this.searchInput.value);
+		this.props.search(this.searchInput.value);
 	}
 
 	render() {
