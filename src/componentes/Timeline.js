@@ -3,9 +3,12 @@ import { Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 import Photo from './Photo';
 import Header from './Header';
-import TimelineStore from '../stores/TimelineStore';
+import TimelineApi from '../stores/TimelineApi';
+import { createStore, applyMiddleware } from 'redux';
+import { timeline } from '../reducers/timeline';
+import thunkMiddleware from 'redux-thunk';
 
-const store = new TimelineStore();
+const store = createStore(timeline, applyMiddleware(thunkMiddleware));
 
 export default class Timeline extends Component {
 	constructor(props) {
@@ -14,26 +17,30 @@ export default class Timeline extends Component {
 		this.state = { photos: [] };
 	}
 
+	load() {
+		return store.dispatch(TimelineApi.load(this.login));
+	}
+
 	like(photoId) {
-		return store.like(photoId);
+		return store.dispatch(TimelineApi.like(photoId));
 	}
 
 	comment(photoId, comment) {
-		return store.comment(photoId, comment);
+		return store.dispatch(TimelineApi.comment(photoId, comment));
 	}
 
 	componentWillMount() {
-		store.subscribe(photos => this.setState({ photos }));
+		store.subscribe(() => this.setState({ photos: store.getState() }));
 	}
 
 	componentDidMount() {
-		store.loadPhotos(this.login);
+		this.load();
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.match.params.login !== nextProps.match.params.login) {
 			this.login = nextProps.match.params.login;
-			this.props.store.loadPhotos(this.props.login);
+			this.load();
 		}
 	}
 
