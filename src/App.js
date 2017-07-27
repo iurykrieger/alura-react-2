@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Timeline from './componentes/Timeline';
+import Timeline from './components/Timeline';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './componentes/Login';
-import Logout from './componentes/Logout';
+import Login from './components/Login';
+import Logout from './components/Logout';
 
 export default class App extends Component {
 	render() {

@@ -17,8 +17,8 @@ export function timeline(state = new List(), action) {
 		case 'LIKE': {
 			const index = state.findIndex(photo => photo.id === action.photoId);
 			const photo = state.get(index);
-			let likers = [];
-			if (photo.likers.find(actualLiker => actualLiker.login === action.liker.login)) {
+			let likers;
+			if (photo.likers.find(liker => liker.login === action.liker.login)) {
 				likers = photo.likers.filter(liker => liker.login !== action.liker.login);
 			} else {
 				likers = photo.likers.concat(action.liker);
