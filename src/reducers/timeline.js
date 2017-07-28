@@ -5,9 +5,6 @@ export function timeline(state = new List(), action) {
 		case 'LOAD': {
 			return new List(action.photos);
 		}
-		case 'SEARCH': {
-			return new List(action.photos);
-		}
 		case 'COMMENT': {
 			const index = state.findIndex(photo => photo.id === action.photoId);
 			const photo = state.get(index);
@@ -28,5 +25,14 @@ export function timeline(state = new List(), action) {
 		default: {
 			return state;
 		}
+	}
+}
+
+export function notify(state = '', action) {
+	switch (action.type) {
+		case 'ALERT':
+			return action.message;
+		default:
+			return state;
 	}
 }

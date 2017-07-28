@@ -3,11 +3,12 @@ import { Redirect } from 'react-router-dom';
 import Photo from './Photo';
 import Header from './Header';
 import TimelineApi from '../stores/TimelineApi';
-import { createStore, applyMiddleware } from 'redux';
-import { timeline } from '../reducers/timeline';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { timeline, notify } from '../reducers/timeline';
 import thunkMiddleware from 'redux-thunk';
 
-const store = createStore(timeline, applyMiddleware(thunkMiddleware));
+const reducers = combineReducers({ timeline, notify });
+const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 export default class Timeline extends Component {
 	constructor(props) {
@@ -33,7 +34,7 @@ export default class Timeline extends Component {
 	}
 
 	componentWillMount() {
-		store.subscribe(() => this.setState({ photos: store.getState() }));
+		store.subscribe(() => this.setState({ photos: store.getState().timeline }));
 	}
 
 	componentDidMount() {
@@ -54,7 +55,7 @@ export default class Timeline extends Component {
 			return (
 				<div id="root">
 					<div className="main">
-						<Header search={this.search.bind(this)} />
+						<Header search={this.search.bind(this)} store={store} />
 						<div className="fotos container">
 							{this.state.photos.map(photo =>
 								<Photo
