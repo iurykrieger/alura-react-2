@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
 import Logout from './components/Logout';
 
-export default class App extends Component {
+class App extends Component {
 	render() {
 		return (
 			<Router>
@@ -18,3 +18,9 @@ export default class App extends Component {
 		);
 	}
 }
+
+App.contextTypes = {
+	store: React.PropTypes.object.isRequired
+};
+
+export default App;

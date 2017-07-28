@@ -12,13 +12,6 @@ export default class Header extends Component {
 		this.props.search(this.searchInput.value);
 	}
 
-	componentDidMount() {
-		console.log(this.props.store.getState());
-		this.props.store.subscribe(() =>
-			this.setState({ message: this.props.store.getState().notify })
-		);
-	}
-
 	render() {
 		return (
 			<header className="header container">
